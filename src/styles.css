@@ -1,0 +1,48 @@
+  
+  .menuMain {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 20px; /* Space between categories */
+    justify-content: center; /* Center content on the screen */
+  }
+  
+  .category {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for readability */
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 200px; /* Minimum width to keep each category readable */
+    flex: 1 1 200px; /* Allows flexible sizing but keeps minimum width */
+    max-width: 300px; /* Optional max width to prevent overly large items */
+    color: #ffffff;
+  }
+  
+  .category h2 {
+    font-size: 2em;
+    color: #ffcc00;
+  }
+  
+  .menu-item {
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    padding: 10px 0;
+  }
+  .logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+  }
+  .menu {
+    position: relative; /* This lets you layer items on top of the background */
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    background-image: url("background.jpg"); /* Ensure the image is in the public folder */
+    background-size: cover; /* Make the image cover the entire container */
+    background-position: center;
+    height: 100vh; /* Full viewport height */
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }  
