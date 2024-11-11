@@ -7,7 +7,7 @@ const fetchMenuData = async () => {
     const apiUrl = 'http://localhost:5000';
 
     // Fetch categories
-    const categoryResponse = await fetch(`${apiUrl}/categories`);
+    const categoryResponse = await fetch(`${apiUrl}/categories?tv=1`);
     const categories = await categoryResponse.json();
 
     // Fetch products

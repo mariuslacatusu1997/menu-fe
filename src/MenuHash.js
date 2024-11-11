@@ -7,7 +7,7 @@ const fetchMenuData = async () => {
     const apiUrl = 'http://localhost:5000';
 
     // Fetch categories
-    const categoryResponse = await fetch(`${apiUrl}/categories`);
+    const categoryResponse = await fetch(`${apiUrl}/categories?tv=2`);
     const categories = await categoryResponse.json();
 
     // Fetch products
@@ -59,7 +59,6 @@ function MenuHash() {
     <div className="menu">
       <div className="menu-overlay">
         <header>
-          <h1>Restaurant Menu</h1>
         </header>
         <MenuMain categories={menuData.categories} />
       </div>
