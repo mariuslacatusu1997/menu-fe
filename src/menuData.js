@@ -19,12 +19,18 @@ const fetchMenuData = async (apiUrl) => {
         const formattedMenuData = {
             categories: validCategories.map(category => ({
                 name: category.name,
-                items: validProducts
-                    .filter(product => product.category_id === category.id)
-                    .map(product => ({
-                        name: product.name,
-                        price: product.price
+                parent_id: category.parent_id,
+                subcategories: (category.parent_id == null || category.parent_id === "") ? [] : (
+                    validCategories.filter(x => x.parent_id == category.parent_id).map(xitem => ({
+                        name: xitem.name,
+                        items: validProducts
+                        .filter(product => product.category_id === xitem.id)
+                        .map(product => ({
+                            name: product.name,
+                            price: product.price,
+                        }))
                     }))
+                )
             }))
         };
 

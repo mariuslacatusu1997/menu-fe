@@ -3,12 +3,10 @@ import { CButton, CCard, CCardBody, CCardFooter, CCardHeader, CCol, CContainer, 
 
 const BackOffice = () => {
     const [categories, setCategories] = useState([]);
-    const [categoryInput, setCategoryInput] = useState({ name: '', order: '', hidden: false, tv: 1 });
+    const [categoryInput, setCategoryInput] = useState({ name: '', order: '', hidden: false, tv: 1, parent_id: null });
     const [products, setProducts] = useState([]);
     const [productInput, setProductInput] = useState({ name: '', price: '', category_id: '', order: '', discount: false, soldout: false, hidden: false });
-    const [editCategoryId, setEditCategoryId] = useState(null);
-    const [editProductId, setEditProductId] = useState(null);
-    const [editingCategory, setEditingCategory] = useState({ id: null, name: '', order: '', hidden: false, tv: '' });
+    const [editingCategory, setEditingCategory] = useState({ id: null, name: '', order: '', hidden: false, tv: '', parent_id: null });
     const [editingProduct, setEditingProduct] = useState({ id: null, name: '', price: '',order: '', category_id: '', discount: false, soldout: false, hidden: false });
 
     const API_URL = 'http://localhost:5000';
@@ -57,7 +55,7 @@ const BackOffice = () => {
     };
 
     const handleEditCategoryInput = (cat) => {
-        setEditingCategory({ id: cat.id, name: cat.name, order: cat.order, hidden: cat.hidden == 'true', tv: cat.tv });
+        setEditingCategory({ id: cat.id, name: cat.name, order: cat.order, hidden: cat.hidden == 'true', tv: cat.tv, parent_id: cat.parent_id });
     };
 
     const handleUpdateCategory = async (id) => {
@@ -69,7 +67,7 @@ const BackOffice = () => {
             });
             const data = await response.json();
             setCategories(categories.map(cat => (cat.id === id ? data : cat)));
-            setEditingCategory({ id: null, name: '' , order: '', hidden: false, tv: 1 });
+            setEditingCategory({ id: null, name: '' , order: '', hidden: false, tv: 1, parent_id: null });
         }
     };
 
@@ -161,6 +159,18 @@ const BackOffice = () => {
                                  <option value="1">TV 1</option>
                                 <option value="2">TV 2</option>
                             </CFormSelect>
+                            <CFormSelect className="mt-2"
+                                value={categoryInput.category_id}
+                                onChange={(e) => setCategoryInput({ ...categoryInput, parent_id: e.target.value })}
+                            >
+                                <option value="">Select Category</option>
+                                {categories.map((cat) => (
+                                    (cat.parent_id == null || cat.parent_id === "") ? 
+                                   ( <option key={cat.id} value={cat.id}>
+                                        {cat.name}
+                                    </option>) : ''
+                                )) }
+                            </CFormSelect> 
                             <CButton className="mt-2" color="primary" onClick={handleAddCategory}>
                                <b>CLICK TO Add Category</b> 
                             </CButton>
@@ -182,6 +192,7 @@ const BackOffice = () => {
                                         <CTableHeaderCell>Order</CTableHeaderCell>
                                         <CTableHeaderCell>Hidden</CTableHeaderCell>
                                         <CTableHeaderCell>TV</CTableHeaderCell>
+                                        <CTableHeaderCell>Main Category</CTableHeaderCell>
                                         <CTableHeaderCell>Actions</CTableHeaderCell>
                                     </tr>
                                 </thead>
@@ -234,7 +245,25 @@ const BackOffice = () => {
                             />
                         ) : (
                             cat.tv
-                        )}
+                                            )}
+                                                <CTableHeaderCell>
+                                                {editingCategory.id === cat.id ? (
+                                                    <CFormSelect
+                                                        value={editingCategory.parent_id}
+                                                        onChange={(e) => setEditingCategory({ ...editingCategory, parent_id: e.target.value })}
+                                                    >
+                                                        <option value="">Select Category</option>
+                                                        {categories.map((cat) => (
+                                    (cat.parent_id == null || cat.parent_id === "") ? 
+                                   ( <option key={cat.id} value={cat.id}>
+                                        {cat.name}
+                                    </option>) : ''
+                                )) }
+                                                    </CFormSelect>
+                                                ) : (
+                                                  cat.parent_id == null || cat.parent_id === "" ? '' : categories.find(item => item.id == cat.parent_id).name
+                                                )}
+                                            </CTableHeaderCell>
                                             <CTableHeaderCell>
                                                 {editingCategory.id === cat.id ? (
                                                     <>

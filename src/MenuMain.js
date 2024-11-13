@@ -5,7 +5,7 @@ function MenuMain({ categories }) {
   return (
     <div className="menuMain">
       {categories.map((category, index) => (
-        <Category key={index} category={category} />
+        category.parent_id == null || category.parent_id === "" ? <Category key={index} category={category} />: '' 
       ))}
     </div>
   );
