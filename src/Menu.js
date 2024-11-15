@@ -4,7 +4,7 @@ import MenuMain from "./MenuMain";
 
 const fetchMenuData = async () => {
   try {
-    const apiUrl = 'http://localhost:5000';
+    const apiUrl = 'http://192.168.1.16:5000';
 
     // Fetch categories
     const categoryResponse = await fetch(`${apiUrl}/categories?tv=1`);
